@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa de 150 Números</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border: 1px solid #333;
+            cursor: pointer;
+        }
+        .number.selected {
+            background-color: green;
+            color: white;
+        }
+        .payment-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Escolha seu número da rifa</h2>
+        <div class="grid" id="grid"></div>
+        <div class="payment-info">
+            <p>Envie o valor para o PIX abaixo e envie o comprovante:</p>
+            <p><strong>PIX: 01240857179</strong></p>
+            <button onclick="enviarWhatsapp(992544559)">Enviar via WhatsApp</button>
+        </div>
+    </div>
+    
+    <script>
+        const grid = document.getElementById("grid");
+        let selectedNumber = null;
+        
+        for (let i = 1; i <= 150; i++) {
+            let num = document.createElement("div");
+            num.classList.add("number");
+            num.innerText = i;
+            num.onclick = () => selectNumber(i, num);
+            grid.appendChild(num);
+        }
+
+        function selectNumber(number, element) {
+            if (selectedNumber) {
+                selectedNumber.classList.remove("selected");
+            }
+            selectedNumber = element;
+            element.classList.add("selected");
+        }
+
+        function enviarWhatsapp() {
+            if (!selectedNumber) {
+                alert("Escolha um número antes de continuar.");
+                return;
+            }
+            let numeroSelecionado = selectedNumber.innerText;
+            let mensagem = `Olá, escolhi o número ${numeroSelecionado} da rifa. Segue meu comprovante de pagamento.`;
+            let link = `https://wa.me/55SEUNUMERO?text=${encodeURIComponent(mensagem)}`;
+            window.open(link, "_blank");
+        }
+    </script>
+</body>
+</html>
